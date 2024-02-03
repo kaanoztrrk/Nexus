@@ -54,6 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Form(
             child: Padding(
           padding: EdgeInsets.symmetric(
@@ -61,7 +62,10 @@ class _SignUpPageState extends State<SignUpPage> {
               horizontal: displayWidth(context) * 0.05),
           child: Column(
             children: [
-              const Hero(tag: 'nexus_shower', child: NexusShower()),
+              SizedBox(
+                  width: displayWidth(context),
+                  height: displayHeight(context) * 0.3,
+                  child: const NexusShower()),
               SizedBox(
                 //  color: Colors.amber,
                 width: displayWidth(context),

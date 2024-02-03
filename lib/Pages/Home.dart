@@ -32,7 +32,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  VoiceDialog dialog = VoiceDialog();
+  VoiceDialog voiceDialog = VoiceDialog();
   int selectedImageIndex = 0;
   late stt.SpeechToText _speech;
   final String user = "Hi, Theviacoder";
@@ -70,7 +70,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               _recognizedText = result.recognizedWords;
             });
 
-            dialog.handleCommand(_recognizedText);
+            voiceDialog.handleCommand(_recognizedText);
 
             Future.delayed(Duration(seconds: 2), () {
               setState(() {

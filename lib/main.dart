@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nexus/Pages/Auth/Splash.dart';
 import 'package:nexus/Pages/Settings.dart';
 import 'Pages/Apps/Apps.dart';
-import 'Pages/Apps/NewTermsPage.dart';
 import 'Pages/Home.dart';
 import 'Providers/ProfileManager_Notifier.dart';
 import 'Util/Theme.dart';
