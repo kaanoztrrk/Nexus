@@ -5,10 +5,10 @@ import '../../Util/Extension/Size.dart';
 import '../Button/OutlineBorderButton.dart';
 
 class CustomAvatar extends StatelessWidget {
-  const CustomAvatar({super.key, this.func, required this.size});
+  const CustomAvatar({super.key, this.func, required this.size, this.image});
 
   final Function()? func;
-
+  final Widget? image;
   final double size;
 
   @override
@@ -22,11 +22,7 @@ class CustomAvatar extends StatelessWidget {
         AppColor().blue.withOpacity(0.5),
       ]),
       onPressed: func,
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(50),
-          child: Image(
-              width: displayWidth(context) * size - 10,
-              image: AssetImage("assets/profile.jpg"))),
+      child: ClipRRect(borderRadius: BorderRadius.circular(50), child: image),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nexus/Pages/Auth/AuthPage.dart';
 import 'package:nexus/Pages/Home.dart';
+import 'package:nexus/Service/ScaffoldMessage.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Widget/Components/CustomAppBar.dart';
 import 'package:nexus/Widget/TextField/CustomTextField.dart';
@@ -16,6 +17,7 @@ import '../../../Widget/Button/ClassicButton.dart';
 import '../../../Widget/Components/NexusShower.dart';
 import '../Components/SocialLoginButton.dart';
 import 'LoginPage.dart';
+import 'UsersStartProfile.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -40,69 +42,76 @@ class _SignUpPageState extends State<SignUpPage> {
         password: _passwordController.text,
       );
       // Kayıt başarılı, yapılacak işlemler
-      pageNavigator(context, const Home());
+      pageNavigator(context, UserStartProfilePage());
     } catch (e) {
       print("Kayıt hatası: $e");
       setState(() {
         _errorText = 'Kayıt hatası: $e';
       });
-      // Kayıt başarısız, kullanıcıya hata mesajı gösterilebilir
+      // Kayıt başarısız, kullanıcıya hata mesajı gösterilebilir,
+      SnackBarService.showSnackBar(
+          context, 'Register Error. Please check email or password');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Form(
-            child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: displayHeight(context) * 0.1,
-              horizontal: displayWidth(context) * 0.05),
-          child: Column(
-            children: [
-              SizedBox(
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Form(
+              child: Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: displayHeight(context) * 0.1,
+                horizontal: displayWidth(context) * 0.05),
+            child: Column(
+              children: [
+                SizedBox(
+                    width: displayWidth(context),
+                    height: displayHeight(context) * 0.3,
+                    child: const NexusShower()),
+                SizedBox(
+                  //  color: Colors.amber,
                   width: displayWidth(context),
-                  height: displayHeight(context) * 0.3,
-                  child: const NexusShower()),
-              SizedBox(
-                //  color: Colors.amber,
-                width: displayWidth(context),
-                height: displayHeight(context) * 0.65,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomTextField(
-                      visible: true,
-                      controller: _emailController,
-                      hintText: "Email",
-                      icon: Icons.email,
-                    ),
-                    CustomTextField(
-                      controller: _passwordController,
-                      visible: true,
-                      hintText: "Password",
-                      icon: obscureText == true
-                          ? Icons.password
-                          : Icons.remove_red_eye,
-                      onTap: checkPassword,
-                      obscureText: obscureText,
-                    ),
-                    CustomClassicButton(title: "Sign In", onTap: _signUp),
-                    _functionText(
-                        context,
-                        Alignment.topCenter,
-                        "Do you have an account ? Login !",
-                        1,
-                        () => Navigator.pop(context)),
-                    const SocialMediaLogIn()
-                  ],
-                ),
-              )
-            ],
-          ),
-        )),
+                  height: displayHeight(context) * 0.65,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        keyboardType: TextInputType.emailAddress,
+                        visible: true,
+                        controller: _emailController,
+                        hintText: "Email",
+                        icon: Icons.email,
+                      ),
+                      CustomTextField(
+                        keyboardType: TextInputType.visiblePassword,
+                        controller: _passwordController,
+                        visible: true,
+                        hintText: "Password",
+                        icon: obscureText == true
+                            ? Icons.password
+                            : Icons.remove_red_eye,
+                        onTap: checkPassword,
+                        obscureText: obscureText,
+                      ),
+                      CustomClassicButton(title: "Sign In", onTap: _signUp),
+                      _functionText(
+                          context,
+                          Alignment.topCenter,
+                          "Do you have an account ? Login !",
+                          1,
+                          () => Navigator.pop(context)),
+                      const SocialMediaLogIn()
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )),
+        ),
       ),
     );
   }

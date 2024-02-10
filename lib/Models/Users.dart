@@ -1,15 +1,33 @@
-class UserProfile {
-  String firstName;
-  String lastName;
-  String profileImageUrl;
-  String gender;
-  DateTime birthDate;
+class User {
+  final String firstName;
+  final String lastName;
+  final int age;
+  final String gender;
 
-  UserProfile({
+  User({
     required this.firstName,
     required this.lastName,
-    required this.profileImageUrl,
+    required this.age,
     required this.gender,
-    required this.birthDate,
   });
+
+  // JSON'dan User nesnesi oluştur
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      age: json['age'] ?? 0,
+      gender: json['gender'] ?? '',
+    );
+  }
+
+  // User nesnesini JSON'a dönüştür
+  Map<String, dynamic> toJson() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'age': age,
+      'gender': gender,
+    };
+  }
 }

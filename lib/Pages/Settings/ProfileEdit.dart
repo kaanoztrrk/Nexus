@@ -5,10 +5,8 @@ import 'package:nexus/Widget/Button/ClassicButton.dart';
 import 'package:nexus/Widget/Components/Avatar.dart';
 import 'package:nexus/Widget/Components/BirthDaySelecter.dart';
 import 'package:nexus/Widget/Components/CustomAppBar.dart';
-import 'package:nexus/Widget/TextField/CustomTextField.dart';
-
+import 'package:nexus/Widget/Components/GenderSelecter.dart';
 import '../../Util/Colors.dart';
-import '../../Widget/Components/GenderSelecter.dart';
 import '../../Widget/TextField/CustomTextField_Edit.dart';
 
 class ProfileEditPage extends StatefulWidget {

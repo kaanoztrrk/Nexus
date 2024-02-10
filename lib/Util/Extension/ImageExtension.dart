@@ -38,6 +38,8 @@ enum IconImageEnum {
   gender,
   social_apple,
   social_google,
+  user,
+  edit,
 }
 
 extension IconEnum on IconImageEnum {

@@ -47,56 +47,59 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: displayHeight(context) * 0.1,
-              horizontal: displayWidth(context) * 0.05),
-          child: Column(
-            children: [
-              SizedBox(
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: displayHeight(context) * 0.1,
+                horizontal: displayWidth(context) * 0.05),
+            child: Column(
+              children: [
+                SizedBox(
+                    width: displayWidth(context),
+                    height: displayHeight(context) * 0.3,
+                    child: const NexusShower()),
+                SizedBox(
+                  //  color: Colors.amber,
                   width: displayWidth(context),
-                  height: displayHeight(context) * 0.3,
-                  child: const NexusShower()),
-              SizedBox(
-                //  color: Colors.amber,
-                width: displayWidth(context),
-                height: displayHeight(context) * 0.65,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomTextField(
-                      controller: _emailController,
-                      visible: true,
-                      hintText: "Email",
-                      icon: Icons.email,
-                    ),
-                    CustomTextField(
-                      controller: _passwordController,
-                      visible: true,
-                      hintText: "Password",
-                      icon: obscureText == true
-                          ? Icons.password
-                          : Icons.remove_red_eye,
-                      onTap: checkPassword,
-                      obscureText: obscureText,
-                    ),
-                    _functionText(
-                        context, Alignment.topRight, "Forget Password ?", 0.7),
-                    CustomClassicButton(title: "Login", onTap: _signIn),
-                    _functionText(
-                        context,
-                        Alignment.topCenter,
-                        "Don't have an account? Register!",
-                        1,
-                        () => pageNavigator(context, const SignUpPage())),
-                    const SocialMediaLogIn()
-                  ],
-                ),
-              )
-            ],
+                  height: displayHeight(context) * 0.65,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        controller: _emailController,
+                        visible: true,
+                        hintText: "Email",
+                        icon: Icons.email,
+                      ),
+                      CustomTextField(
+                        controller: _passwordController,
+                        visible: true,
+                        hintText: "Password",
+                        icon: obscureText == true
+                            ? Icons.password
+                            : Icons.remove_red_eye,
+                        onTap: checkPassword,
+                        obscureText: obscureText,
+                      ),
+                      _functionText(context, Alignment.topRight,
+                          "Forget Password ?", 0.7),
+                      CustomClassicButton(title: "Login", onTap: _signIn),
+                      _functionText(
+                          context,
+                          Alignment.topCenter,
+                          "Don't have an account? Register!",
+                          1,
+                          () => pageNavigator(context, const SignUpPage())),
+                      const SocialMediaLogIn()
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -25,10 +25,13 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor().bgColor,
-      body: const Center(
-        child: Hero(tag: "nexus_shower", child: NexusShower()),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: AppColor().bgColor,
+        body: const Center(
+          child: Hero(tag: "nexus_shower", child: NexusShower()),
+        ),
       ),
     );
   }

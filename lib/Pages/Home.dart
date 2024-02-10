@@ -1,4 +1,6 @@
 // ignore_for_file: file_names, prefer_const_constructor, use_build_context_synchronously
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nexus/Controller/Config/Assistant.dart';
@@ -16,6 +18,7 @@ import '../Controller/AppsController.dart';
 import '../Controller/AppsListController.dart';
 import '../Controller/Config/Asisstant_Dialog.dart';
 import '../Controller/Config/Assistant_Config.dart';
+
 import '../Providers/ProfileManager_Notifier.dart';
 import '../Util/Colors.dart';
 import '../Util/Extension/PageNavigator.dart';
@@ -39,48 +42,22 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   String _recognizedText = "";
   final Apps _apps = Apps();
 
+  List<String> docIDs = [];
+
+  Future getDocId() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .get()
+        .then((snapshot) => snapshot.docs.forEach((element) {
+              print(element.reference);
+            }));
+  }
+
   @override
   void initState() {
     super.initState();
     config();
-    _loadPreferences();
-  }
-
-  Future<void> _loadPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      // shared preferences'tan kaydedilen resmi al
-      selectedImageIndex = prefs.getInt('selectedImageIndex') ?? 0;
-    });
-  }
-
-  void config() {
-    _speech = stt.SpeechToText();
-    AssistantConfig().speechStateConfig();
-    AssistantConfig().initializeAssistant();
-    AssistantConfig().configureTts();
-  }
-
-  void speechListining() {
-    if (_speech.isAvailable) {
-      _speech.listen(
-        onResult: (result) async {
-          if (result.finalResult) {
-            setState(() {
-              _recognizedText = result.recognizedWords;
-            });
-
-            voiceDialog.handleCommand(_recognizedText);
-
-            Future.delayed(Duration(seconds: 2), () {
-              setState(() {
-                _recognizedText = "";
-              });
-            });
-          }
-        },
-      );
-    }
+    getDocId();
   }
 
   @override
@@ -118,6 +95,35 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
+  void config() {
+    _speech = stt.SpeechToText();
+    AssistantConfig().speechStateConfig();
+    AssistantConfig().initializeAssistant();
+    AssistantConfig().configureTts();
+  }
+
+  void speechListining() {
+    if (_speech.isAvailable) {
+      _speech.listen(
+        onResult: (result) async {
+          if (result.finalResult) {
+            setState(() {
+              _recognizedText = result.recognizedWords;
+            });
+
+            voiceDialog.handleCommand(_recognizedText);
+
+            Future.delayed(Duration(seconds: 2), () {
+              setState(() {
+                _recognizedText = "";
+              });
+            });
+          }
+        },
+      );
+    }
+  }
+
   Widget _user(String user) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -149,30 +155,4 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ]),
     );
   }
-/*
-
-  Future<void> speakMethod(
-    String speakMethod,
-    Widget page,
-    SpeechRecognitionResult result,
-    BuildContext context,
-  ) async {
-    String spokenSearch = result.recognizedWords.toLowerCase();
-    if (spokenSearch.contains(speakMethod)) {
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog.fullscreen(child: page);
-        },
-      );
-      await pageNavigator(context, page);
-    }
-  }
-
- */
 }
-
-/*
-      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                      color: AppColor().white), */
