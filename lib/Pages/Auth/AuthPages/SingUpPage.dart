@@ -1,23 +1,21 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nexus/Pages/Auth/AuthPage.dart';
-import 'package:nexus/Pages/Home.dart';
+import 'package:nexus/Pages/Auth/AuthPages/LoginPage.dart';
+import 'package:nexus/Pages/Auth/AuthPages/OTPEmail.dart';
 import 'package:nexus/Service/ScaffoldMessage.dart';
 import 'package:nexus/Util/Colors.dart';
-import 'package:nexus/Widget/Components/CustomAppBar.dart';
+import 'package:nexus/Util/Extension/PageNavigator.dart';
 import 'package:nexus/Widget/TextField/CustomTextField.dart';
-
-import '../../../Util/Extension/PageNavigator.dart';
+import 'package:email_otp/email_otp.dart';
 
 import '../../../Util/Extension/Size.dart';
 import '../../../Util/Extension/TextUtility.dart';
 import '../../../Widget/Button/ClassicButton.dart';
 import '../../../Widget/Components/NexusShower.dart';
 import '../Components/SocialLoginButton.dart';
-import 'LoginPage.dart';
-import 'UsersStartProfile.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -28,29 +26,61 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   var obscureText = true;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  String _errorText = '';
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  EmailOTP myAuth = EmailOTP();
 
   void checkPassword() => setState(() => obscureText = !obscureText);
-
-  Future<void> _signUp() async {
+  void _signUpWithEmail(String email, String password) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // Kayıt başarılı, yapılacak işlemler
-      pageNavigator(context, UserStartProfilePage());
+      // E-posta adresinin veritabanında bulunup bulunmadığını kontrol etme
+      bool emailExists = await checkIfEmailExists(email);
+      if (emailExists) {
+        // Eğer e-posta adresi veritabanında bulunuyorsa, kullanıcıya uygun bir mesaj göster
+        SnackBarService.showSnackBar(
+            context, "Email already exists. Please sign in.");
+        pageNavigator(context, const LoginPage());
+      } else {
+        // Eğer e-posta adresi veritabanında bulunmuyorsa, OTP gönderme işlemine geç
+        myAuth.setConfig(
+          appEmail: "kaanoztrrk411@gmail.com",
+          appName: "N.E.X.U.S",
+          userEmail: email,
+          otpLength: 4,
+          otpType: OTPType.digitsOnly,
+        );
+        myAuth.setTheme(theme: "v3");
+        await myAuth.sendOTP();
+        pageNavigator(
+          context,
+          OTPScreen(
+            email: email,
+            password: password,
+            myAuth: myAuth,
+          ),
+        );
+      }
     } catch (e) {
-      print("Kayıt hatası: $e");
-      setState(() {
-        _errorText = 'Kayıt hatası: $e';
-      });
-      // Kayıt başarısız, kullanıcıya hata mesajı gösterilebilir,
+      // E-posta kontrolü sırasında bir hata oluşursa kullanıcıya bilgi verme
       SnackBarService.showSnackBar(
-          context, 'Register Error. Please check email or password');
+          context, "Email check operation failed, please try again.");
+    }
+  }
+
+  Future<bool> checkIfEmailExists(String email) async {
+    try {
+      // Firestore'da 'users' koleksiyonunu sorgula
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get();
+
+      // Sorgu sonucunda eşleşen belge varsa, e-posta adresi mevcuttur
+      return querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      // Sorgu sırasında bir hata oluşursa false döndür
+      print('Error checking email existence: $e');
+      return false;
     }
   }
 
@@ -97,11 +127,16 @@ class _SignUpPageState extends State<SignUpPage> {
                         onTap: checkPassword,
                         obscureText: obscureText,
                       ),
-                      CustomClassicButton(title: "Sign In", onTap: _signUp),
+                      CustomClassicButton(
+                        title: "Sign In",
+                        onTap: () => _signUpWithEmail(
+                            _emailController.text, _passwordController.text),
+                      ),
                       _functionText(
                           context,
                           Alignment.topCenter,
-                          "Do you have an account ? Login !",
+                          "Do you have an account? ",
+                          " Login!",
                           1,
                           () => Navigator.pop(context)),
                       const SocialMediaLogIn()
@@ -117,17 +152,26 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _functionText(BuildContext context, AlignmentGeometry alignment,
-      String title, double opacity,
+      String title, secText, double opacity,
       [Function()? onTap]) {
     return InkWell(
       onTap: onTap,
       child: Container(
         alignment: alignment,
         padding: EdgeInsets.symmetric(vertical: displayHeight(context) * 0.02),
-        child: Text(
-          title,
-          style: customGoogleTextStyle().copyWith(
-              fontSize: 14, color: AppColor().white.withOpacity(opacity)),
+        child: Text.rich(
+          TextSpan(
+              text: title,
+              style: customGoogleTextStyle().copyWith(
+                  fontSize: 14, color: AppColor().white.withOpacity(opacity)),
+              children: [
+                TextSpan(
+                    text: secText,
+                    style: customGoogleTextStyle().copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColor().white)),
+              ]),
         ),
       ),
     );

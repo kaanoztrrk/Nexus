@@ -17,6 +17,8 @@ class CustomTextField extends StatelessWidget {
     this.obscureText,
     this.keyboardType,
     this.inputFormatters,
+    this.maxlength,
+    this.textAlign,
   });
 
   final bool? visible;
@@ -27,6 +29,8 @@ class CustomTextField extends StatelessWidget {
   final bool? obscureText;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final int? maxlength;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,8 @@ class CustomTextField extends StatelessWidget {
             border: Border.all(width: 2, color: AppColor().white),
             borderRadius: BorderRadius.circular(20)),
         child: TextField(
+          textAlign: textAlign ?? TextAlign.start,
+          maxLength: maxlength,
           keyboardType: keyboardType ?? TextInputType.text,
           controller: controller,
           cursorColor: AppColor().white,

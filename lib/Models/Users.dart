@@ -1,33 +1,27 @@
-class User {
+import 'package:flutter/material.dart';
+
+class UserProfile {
   final String firstName;
   final String lastName;
   final int age;
   final String gender;
+  late final String profileImage;
 
-  User({
+  UserProfile({
     required this.firstName,
     required this.lastName,
     required this.age,
     required this.gender,
+    required this.profileImage,
   });
 
-  // JSON'dan User nesnesi oluştur
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      firstName: json['firstName'] ?? '',
-      lastName: json['lastName'] ?? '',
-      age: json['age'] ?? 0,
-      gender: json['gender'] ?? '',
+  factory UserProfile.fromMap(Map<String, dynamic> map) {
+    return UserProfile(
+      firstName: map['firstName'] ?? '',
+      lastName: map['lastName'] ?? '',
+      age: map['age'] ?? 0,
+      gender: map['gender'] ?? '',
+      profileImage: '',
     );
-  }
-
-  // User nesnesini JSON'a dönüştür
-  Map<String, dynamic> toJson() {
-    return {
-      'firstName': firstName,
-      'lastName': lastName,
-      'age': age,
-      'gender': gender,
-    };
   }
 }

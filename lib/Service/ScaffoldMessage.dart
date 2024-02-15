@@ -9,7 +9,7 @@ class SnackBarService {
         backgroundColor: AppColor().white,
         content: Text(
           message,
-          style: customGoogleTextStyle(color: AppColor().bgColor),
+          style: customGoogleTextStyle(color: AppColor().bgColor, size: 14),
         ),
         duration: Duration(seconds: 3), // Snackbar'ın görüntüleme süresi
       ),

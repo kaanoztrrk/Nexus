@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nexus/Home.dart';
 import 'package:nexus/Util/Colors.dart';
 import '../Components/SocialLoginButton.dart';
 import 'package:nexus/Widget/TextField/CustomTextField.dart';
@@ -37,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text,
       );
       // Giriş başarılı, yapılacak işlemler
+      pageNavigator(context, Home(userID: ''));
     } catch (e) {
       print("Giriş hatası: ${e.toString()}");
       // Giriş başarısız, kullanıcıya hata mesajı gösterilebilir
@@ -86,12 +88,13 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: obscureText,
                       ),
                       _functionText(context, Alignment.topRight,
-                          "Forget Password ?", 0.7),
+                          "Forget Password ?", "", 0.7),
                       CustomClassicButton(title: "Login", onTap: _signIn),
                       _functionText(
                           context,
                           Alignment.topCenter,
-                          "Don't have an account? Register!",
+                          "Don't have an account? ",
+                          " Register!",
                           1,
                           () => pageNavigator(context, const SignUpPage())),
                       const SocialMediaLogIn()
@@ -107,17 +110,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _functionText(BuildContext context, AlignmentGeometry alignment,
-      String title, double opacity,
+      String title, secText, double opacity,
       [Function()? onTap]) {
     return InkWell(
       onTap: onTap,
       child: Container(
         alignment: alignment,
         padding: EdgeInsets.symmetric(vertical: displayHeight(context) * 0.02),
-        child: Text(
-          title,
-          style: customGoogleTextStyle().copyWith(
-              fontSize: 14, color: AppColor().white.withOpacity(opacity)),
+        child: Text.rich(
+          TextSpan(
+              text: title,
+              style: customGoogleTextStyle().copyWith(
+                  fontSize: 14, color: AppColor().white.withOpacity(opacity)),
+              children: [
+                TextSpan(
+                    text: secText,
+                    style: customGoogleTextStyle().copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColor().white)),
+              ]),
         ),
       ),
     );

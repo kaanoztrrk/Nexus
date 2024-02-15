@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nexus/Pages/Auth/Splash.dart';
-import 'package:nexus/Pages/Settings.dart';
+import 'package:nexus/Pages/Settings/Settings.dart';
 import 'Pages/Apps/Apps.dart';
-import 'Pages/Home.dart';
+import 'Home.dart';
 import 'Providers/ProfileManager_Notifier.dart';
 import 'Util/Theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,8 +43,6 @@ class Nexus extends ConsumerWidget {
             return MaterialPageRoute(builder: (_) => const SettingsPage());
           case '/apps':
             return MaterialPageRoute(builder: (_) => const AppsPage());
-          case '/home':
-            return MaterialPageRoute(builder: (_) => const Home());
           // Add more cases for additional routes as needed
           default:
             // Handle unknown routes

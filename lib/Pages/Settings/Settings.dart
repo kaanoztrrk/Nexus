@@ -12,8 +12,9 @@ import 'package:nexus/Util/Extension/Size.dart';
 import 'package:nexus/Util/Extension/TextUtility.dart';
 import 'package:nexus/Widget/Components/Avatar.dart';
 import 'package:nexus/Widget/Components/CustomAppBar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Settings/ProfileEdit.dart';
+import 'ProfileEdit.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -131,10 +132,40 @@ class SettingsPage extends StatelessWidget {
   Widget _preferences(BuildContext context, AppsListController listController) {
     final Color textColor = AppColor().white.withOpacity(0.7);
     final double iconSize = 0.075;
+
     final FirebaseAuth _auth = FirebaseAuth.instance;
-    Future<void> _signOut() async {
-      await _auth.signOut();
-      pageNavigator(context, AuthPage());
+
+    Future<void> signOut(BuildContext context) async {
+      try {
+        // SharedPreferences'ten userId'yi sil
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.remove('userId');
+
+        // Çıkış yaptıktan sonra AuthPage'e yönlendirme
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthPage()));
+      } catch (error) {
+        print('Error signing out: $error');
+        // Hata durumunda kullanıcıya bilgi verebilirsiniz
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Sign Out Error'),
+              content: Text(
+                  'An error occurred while signing out. Please try again later.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
 
     return Container(
@@ -180,7 +211,7 @@ class SettingsPage extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: _signOut,
+              onTap: () => signOut(context),
               leading: Image(
                 width: displayWidth(context) * 0.075,
                 image: IconImageEnum.logout.toPath,

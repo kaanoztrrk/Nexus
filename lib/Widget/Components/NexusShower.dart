@@ -19,9 +19,9 @@ class NexusShower extends StatelessWidget {
                 AppColor().bgColor.withOpacity(0.2), BlendMode.darken),
             child: Image(image: NexusBgImageEnum.nexus_10.toPath)),
         Text(
-          "Nexus",
+          "N.E.X.U.S",
           style: customGoogleTextStyle(color: AppColor().white)
-              .copyWith(fontSize: 32, fontWeight: FontWeight.w500),
+              .copyWith(fontSize: 28, fontWeight: FontWeight.w500),
         )
       ],
     );

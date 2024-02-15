@@ -1,23 +1,32 @@
-// ignore_for_file: unrelated_type_equality_checks
+// ignore_for_file: unrelated_type_equality_checks, use_build_context_synchronously, file_names, library_private_types_in_public_api
 
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:nexus/Home.dart';
 import 'package:nexus/Service/ScaffoldMessage.dart';
+import 'package:nexus/Util/Extension/PageNavigator.dart';
 import 'package:nexus/Widget/Components/Avatar.dart';
 import 'package:nexus/Widget/Components/CustomAppBar.dart';
 import 'package:nexus/Widget/Components/GenderSelecter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../Service/ImageStorage.dart';
 import '../../../Util/Colors.dart';
 import '../../../Util/Extension/ImageExtension.dart';
 import '../../../Util/Extension/Size.dart';
 import '../../../Util/Extension/TextUtility.dart';
 import '../../../Widget/Button/ClassicButton.dart';
 import '../../../Widget/TextField/CustomTextField.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserStartProfilePage extends StatefulWidget {
+  const UserStartProfilePage(
+      {super.key, required this.email, required this.password});
+  final String email;
+  final String password;
   @override
   _UserStartProfilePageState createState() => _UserStartProfilePageState();
 }
@@ -59,20 +68,23 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
     });
   }
 
-  void _saveUserData() {
-    FirebaseFirestore.instance.collection('users').add({
-      'firstName': _nameController.text,
-      'lastName': _lastNameController.text,
-      'age': int.tryParse(_ageController.text) ?? 0,
-      'gender': _genderController.text,
-      // Burada profil resminin URL'sini eklemek istiyorsanız, onu da ekleyebilirsiniz.
-    }).then((value) {
-      print('User added with ID: ${value.id}');
-      // Veri başarıyla eklendiğinde yapılacak işlemler buraya gelebilir.
-    }).catchError((error) {
-      print('Failed to add user: $error');
-      // Hata durumunda yapılacak işlemler buraya gelebilir.
-    });
+  void _saveUserData(BuildContext context) async {
+    String email = widget.email;
+    String firstName = _nameController.text;
+    String lastName = _lastNameController.text;
+    String age = _ageController.text;
+    String gender = _genderController.text;
+
+    // Kullanıcı verilerini kaydet
+    await UserDataStorage.saveUserData(
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
+      gender: gender,
+      image: image,
+      context: context,
+    );
   }
 
   @override
@@ -304,7 +316,7 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: CustomClassicButton(
             title: "Start Nexus",
-            onTap: () => _saveUserData(),
+            onTap: () => _saveUserData(context),
           ),
         ),
       ],

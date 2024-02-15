@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nexus/Pages/Apps/Apps.dart';
-import 'package:nexus/Pages/Settings.dart';
+import 'package:nexus/Pages/Settings/Settings.dart';
 import 'package:nexus/Util/Extension/ImageExtension.dart';
 import 'package:nexus/Util/Extension/PageNavigator.dart';
 import 'package:nexus/Widget/Button/OutlineBorderButton.dart';
