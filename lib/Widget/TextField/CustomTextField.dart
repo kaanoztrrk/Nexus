@@ -37,7 +37,7 @@ class CustomTextField extends StatelessWidget {
     return Visibility(
       visible: visible ?? true,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         width: double.infinity,
         decoration: BoxDecoration(
             border: Border.all(width: 2, color: AppColor().white),
@@ -54,7 +54,7 @@ class CustomTextField extends StatelessWidget {
           decoration: InputDecoration(
               suffixIcon: IconButton(
                 onPressed: onTap,
-                icon: Icon(icon ?? null),
+                icon: Icon(icon),
                 color: AppColor().white.withOpacity(0.7),
               ),
               hintText: hintText ?? "",

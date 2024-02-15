@@ -1,18 +1,14 @@
+// ignore_for_file: file_names, library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:nexus/Pages/Auth/AuthPages/UsersStartProfile.dart';
-import 'package:nexus/Service/ScaffoldMessage.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/PageNavigator.dart';
 import 'package:nexus/Util/Extension/Size.dart';
 import 'package:nexus/Util/Extension/TextUtility.dart';
 import 'package:nexus/Widget/Button/ClassicButton.dart';
-import 'package:nexus/Widget/Components/CustomAppBar.dart';
-import 'package:nexus/Widget/TextField/CustomTextField.dart';
-
-import '../../../Widget/Button/NumericKeyBoard.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen(
@@ -104,7 +100,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 ],
               )),
             ),
-            Spacer(),
+            const Spacer(),
             CustomClassicButton(
               title: "Continue",
               onTap: () => _verifyOTP(t1.text, t2.text, t3.text, t4.text),

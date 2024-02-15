@@ -1,7 +1,11 @@
+// ignore_for_file: file_names, library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserInfoPage extends StatefulWidget {
+  const UserInfoPage({super.key});
+
   @override
   _UserInfoPageState createState() => _UserInfoPageState();
 }
@@ -19,10 +23,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     ))!;
-    if (picked != null && picked != selectedDate)
+    if (picked != selectedDate) {
       setState(() {
         selectedDate = picked;
       });
+    }
   }
 
   Future<void> saveUserProfileToFirebase(String firstName, String lastName,
@@ -41,7 +46,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Info'),
+        title: const Text('User Info'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -50,11 +55,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
           children: [
             TextField(
               controller: firstNameController,
-              decoration: InputDecoration(labelText: 'First Name'),
+              decoration: const InputDecoration(labelText: 'First Name'),
             ),
             TextField(
               controller: lastNameController,
-              decoration: InputDecoration(labelText: 'Last Name'),
+              decoration: const InputDecoration(labelText: 'Last Name'),
             ),
             DropdownButton<String>(
               value: selectedGender,
@@ -76,12 +81,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
               children: [
                 Text("Birth Date: ${selectedDate.toLocal()}".split(' ')[0]),
                 IconButton(
-                  icon: Icon(Icons.calendar_today),
+                  icon: const Icon(Icons.calendar_today),
                   onPressed: () => _selectDate(context),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 String firstName = firstNameController.text;
@@ -92,7 +97,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
                 Navigator.pop(context); // Ana sayfaya geri dön
               },
-              child: Text('Tamam'),
+              child: const Text('Tamam'),
             ),
           ],
         ),

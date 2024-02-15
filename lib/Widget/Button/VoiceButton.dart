@@ -64,8 +64,8 @@ class VoiceButton extends StatelessWidget {
         AppColor().pink.withOpacity(colorRadius),
         AppColor().blue.withOpacity(colorRadius),
       ]),
-      child: Image(width: displayWidth(context) * iconSize, image: image),
       onPressed: page,
+      child: Image(width: displayWidth(context) * iconSize, image: image),
     );
   }
 }

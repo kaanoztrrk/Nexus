@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/TextUtility.dart';
@@ -15,7 +17,7 @@ class NumericKeyboard extends StatelessWidget {
     return GridView.count(
       crossAxisCount: 3,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: List.generate(
         10,
         (index) {
@@ -46,7 +48,7 @@ class NumericKeyboard extends StatelessWidget {
 
   Widget _buildBackspaceButton() {
     return IconButton(
-      icon: Icon(Icons.backspace),
+      icon: const Icon(Icons.backspace),
       onPressed: () => onKeyPressed('backspace'),
     );
   }

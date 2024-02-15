@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 import '../../Util/Colors.dart';
@@ -19,9 +21,9 @@ class HelpSupportPage extends StatelessWidget {
           alignment: Alignment.topRight,
           width: displayWidth(context),
           height: displayHeight(context),
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: ListView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -15,7 +15,7 @@ class AppsListController {
     [
       IconImageEnum.voice.toPath,
       "Sound and Tone",
-      SoundandTonePage(),
+      const SoundandTonePage(),
     ],
     [
       IconImageEnum.theme.toPath,

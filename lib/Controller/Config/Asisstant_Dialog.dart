@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison, avoid_print, file_names
+
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -59,10 +61,8 @@ class VoiceDialog {
       case 'time':
         return "The current time is ${DateTime.now().toString()}";
       case 'open calendar':
-        // TODO: Implement code to open the calendar
         return "Opening the calendar.";
       case 'play music':
-        // TODO: Implement code to play music
         return "Playing your favorite music.";
       default:
         return "I'm not sure how to respond to that command.";

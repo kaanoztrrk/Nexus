@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:nexus/Util/Extension/Size.dart';
 import 'package:nexus/Util/Extension/TextUtility.dart';
 
 class CustomAppbar extends StatelessWidget {

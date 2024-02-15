@@ -1,9 +1,10 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nexus/Pages/Auth/Splash.dart';
 import 'package:nexus/Pages/Settings/Settings.dart';
 import 'Pages/Apps/Apps.dart';
-import 'Home.dart';
 import 'Providers/ProfileManager_Notifier.dart';
 import 'Util/Theme.dart';
 import 'package:firebase_core/firebase_core.dart';

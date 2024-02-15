@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/ImageExtension.dart';
@@ -8,7 +9,7 @@ class SocialMediaLogIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 20),
       child: Row(
         children: [
           _socialMediaItem(
@@ -38,7 +39,7 @@ class SocialMediaLogIn extends StatelessWidget {
               image: image,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: VerticalDivider(
                 width: 1.5,
                 thickness: 1.5,

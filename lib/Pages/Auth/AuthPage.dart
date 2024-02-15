@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -5,7 +7,7 @@ import '../../Home.dart';
 import 'AuthPages/LoginPage.dart';
 
 class AuthPage extends StatelessWidget {
-  const AuthPage({Key? key});
+  const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class AuthPage extends StatelessWidget {
       future: _getUserIdFromSharedPreferences(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -24,7 +26,7 @@ class AuthPage extends StatelessWidget {
           return Home(userID: snapshot.data!);
         } else {
           // Kullanıcı oturum açmamışsa oturum açma sayfasına yönlendir
-          return LoginPage();
+          return const LoginPage();
         }
       },
     );

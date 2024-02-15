@@ -1,8 +1,9 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:nexus/Util/Colors.dart';
-import 'package:nexus/Util/Extension/ImageExtension.dart';
 
 import '../../Util/Extension/PageNavigator.dart';
 import '../../Widget/Components/NexusShower.dart';

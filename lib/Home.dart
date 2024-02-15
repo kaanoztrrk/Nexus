@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, unused_field, avoid_print
 // ignore_for_file: file_names, prefer_const_constructors
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'Models/Users.dart';
 import 'Pages/HomePage.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key, required this.userID});
+  const Home({super.key, required this.userID});
   final String userID;
   @override
   State<Home> createState() => _HomeState();

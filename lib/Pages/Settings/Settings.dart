@@ -1,10 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously, avoid_print
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nexus/Controller/AppsListController.dart';
 import 'package:nexus/Pages/Auth/AuthPage.dart';
-import 'package:nexus/Pages/Auth/AuthPages/LoginPage.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/ImageExtension.dart';
 import 'package:nexus/Util/Extension/PageNavigator.dart';
@@ -42,7 +40,7 @@ class SettingsPage extends StatelessWidget {
 
   Widget _profile(BuildContext context) {
     return InkWell(
-      onTap: () => pageNavigator(context, ProfileEditPage()),
+      onTap: () => pageNavigator(context, const ProfileEditPage()),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: displayWidth(context),
@@ -80,7 +78,7 @@ class SettingsPage extends StatelessWidget {
 
   Widget _general(BuildContext context, AppsListController listController) {
     final Color textColor = AppColor().white.withOpacity(0.7);
-    final double iconSize = 0.075;
+    const double iconSize = 0.075;
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 10),
         width: displayWidth(context),
@@ -131,9 +129,7 @@ class SettingsPage extends StatelessWidget {
 
   Widget _preferences(BuildContext context, AppsListController listController) {
     final Color textColor = AppColor().white.withOpacity(0.7);
-    final double iconSize = 0.075;
-
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+    const double iconSize = 0.075;
 
     Future<void> signOut(BuildContext context) async {
       try {
@@ -143,7 +139,7 @@ class SettingsPage extends StatelessWidget {
 
         // Çıkış yaptıktan sonra AuthPage'e yönlendirme
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => AuthPage()));
+            MaterialPageRoute(builder: (context) => const AuthPage()));
       } catch (error) {
         print('Error signing out: $error');
         // Hata durumunda kullanıcıya bilgi verebilirsiniz
@@ -151,15 +147,15 @@ class SettingsPage extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('Sign Out Error'),
-              content: Text(
+              title: const Text('Sign Out Error'),
+              content: const Text(
                   'An error occurred while signing out. Please try again later.'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );

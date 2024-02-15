@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/TextUtility.dart';
@@ -11,7 +13,7 @@ class SnackBarService {
           message,
           style: customGoogleTextStyle(color: AppColor().bgColor, size: 14),
         ),
-        duration: Duration(seconds: 3), // Snackbar'ın görüntüleme süresi
+        duration: const Duration(seconds: 3), // Snackbar'ın görüntüleme süresi
       ),
     );
   }

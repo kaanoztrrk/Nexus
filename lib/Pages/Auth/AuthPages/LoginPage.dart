@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, use_build_context_synchronously
+// ignore_for_file: file_names, use_build_context_synchronously, avoid_print
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,12 +38,12 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text,
       );
       // Giriş başarılı, yapılacak işlemler
-      pageNavigator(context, Home(userID: ''));
+      pageNavigator(context, const Home(userID: ''));
     } catch (e) {
       print("Giriş hatası: ${e.toString()}");
       // Giriş başarısız, kullanıcıya hata mesajı gösterilebilir
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Your email or password is incorrect")));
+          const SnackBar(content: Text("Your email or password is incorrect")));
     }
   }
 
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
       canPop: false,
       child: Scaffold(
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(
                 vertical: displayHeight(context) * 0.1,

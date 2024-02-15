@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:nexus/Controller/AppsListController.dart';
 import 'package:restart_app/restart_app.dart';
@@ -65,7 +67,7 @@ class _ThemesPageState extends State<ThemesPage> {
           Expanded(
             flex: 7,
             child: Container(
-              margin: EdgeInsets.all(20),
+              margin: const EdgeInsets.all(20),
               child: Image(
                 image:
                     AssetImage(AppsListController().bgList[selectedImageIndex]),
@@ -82,7 +84,7 @@ class _ThemesPageState extends State<ThemesPage> {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  final double size = 0.175;
+                  const double size = 0.175;
                   return OutlineButton(
                     size: displayWidth(context) * size,
                     strokeWidth: 2.5,
@@ -110,7 +112,7 @@ class _ThemesPageState extends State<ThemesPage> {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return SizedBox(width: 15);
+                  return const SizedBox(width: 15);
                 },
                 itemCount: AppsListController().bgList.length,
               ),

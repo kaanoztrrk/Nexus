@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, camel_case_types
+
 import 'package:flutter/material.dart';
 
 import '../../Util/Colors.dart';
@@ -20,7 +22,7 @@ class CustomTextField_Auth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,13 +32,13 @@ class CustomTextField_Auth extends StatelessWidget {
                   .textTheme
                   .titleMedium
                   ?.copyWith(fontWeight: FontWeight.w600)),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           TextField(
               controller: controller,
               obscureText: obscureText,
               decoration: InputDecoration(
                   suffixIcon: InkWell(onTap: onTap, child: Icon(iconData)),
-                  hintText: "$title",
+                  hintText: title,
                   focusColor: AppColor().blue,
                   border: OutlineInputBorder(
                     borderSide: BorderSide(

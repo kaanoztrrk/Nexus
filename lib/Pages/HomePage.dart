@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:nexus/Models/Users.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -39,9 +41,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CustomAvatar(
-                size: 0.175,
-              ),
+              const CustomAvatar(size: 0.175),
               _user("Hi, ${user.firstName}"),
               _title(),
               Expanded(
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
 
             voiceDialog.handleCommand(_recognizedText);
 
-            Future.delayed(Duration(seconds: 2), () {
+            Future.delayed(const Duration(seconds: 2), () {
               setState(() {
                 _recognizedText = "";
               });

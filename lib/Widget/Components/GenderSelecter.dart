@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:nexus/Util/Colors.dart';
 
@@ -32,9 +34,9 @@ class _GenderSelectorState extends State<GenderSelector> {
         Container(
           width: 10,
           height: 10,
-          child: ratioButton("", AppColor().white, 0),
           decoration:
               BoxDecoration(color: AppColor().white, shape: BoxShape.circle),
+          child: ratioButton("", AppColor().white, 0),
         ),
         Expanded(
           child: ratioButton(
@@ -63,9 +65,7 @@ class _GenderSelectorState extends State<GenderSelector> {
         },
         child: Text(
           value,
-          style: TextStyle(
-            color: Colors.white,
-          ),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );

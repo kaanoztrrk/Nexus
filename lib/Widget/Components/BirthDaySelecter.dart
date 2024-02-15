@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 import '../../Util/Colors.dart';
@@ -5,7 +7,7 @@ import '../../Util/Colors.dart';
 class BirthdaySelector extends StatefulWidget {
   final Function(DateTime) onDateSelected;
 
-  BirthdaySelector({required this.onDateSelected});
+  const BirthdaySelector({super.key, required this.onDateSelected});
 
   @override
   _BirthdaySelectorState createState() => _BirthdaySelectorState();
@@ -29,7 +31,7 @@ class _BirthdaySelectorState extends State<BirthdaySelector> {
             margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),

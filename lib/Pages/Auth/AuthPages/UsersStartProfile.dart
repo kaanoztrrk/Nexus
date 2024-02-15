@@ -1,18 +1,14 @@
-// ignore_for_file: unrelated_type_equality_checks, use_build_context_synchronously, file_names, library_private_types_in_public_api
+// ignore_for_file: unrelated_type_equality_checks, use_build_context_synchronously, file_names, library_private_types_in_public_api, avoid_print
 
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nexus/Home.dart';
 import 'package:nexus/Service/ScaffoldMessage.dart';
-import 'package:nexus/Util/Extension/PageNavigator.dart';
 import 'package:nexus/Widget/Components/Avatar.dart';
 import 'package:nexus/Widget/Components/CustomAppBar.dart';
 import 'package:nexus/Widget/Components/GenderSelecter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Service/ImageStorage.dart';
 import '../../../Util/Colors.dart';
 import '../../../Util/Extension/ImageExtension.dart';
@@ -20,7 +16,6 @@ import '../../../Util/Extension/Size.dart';
 import '../../../Util/Extension/TextUtility.dart';
 import '../../../Widget/Button/ClassicButton.dart';
 import '../../../Widget/TextField/CustomTextField.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class UserStartProfilePage extends StatefulWidget {
   const UserStartProfilePage(
@@ -109,39 +104,37 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
   }
 
   Widget _stepFirstname() {
-    return Container(
-      child: Column(
-        children: [
-          CustomAppbar(),
-          Image(
-              width: displayWidth(context) * 0.2,
-              color: AppColor().white.withOpacity(0.7),
-              image: IconImageEnum.user.toPath),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Text(
-              "What's your first name ?",
-              style: customGoogleTextStyle(
-                  fontWeight: FontWeight.bold,
-                  size: 24,
-                  color: AppColor().white.withOpacity(0.7)),
-            ),
+    return Column(
+      children: [
+        const CustomAppbar(),
+        Image(
+            width: displayWidth(context) * 0.2,
+            color: AppColor().white.withOpacity(0.7),
+            image: IconImageEnum.user.toPath),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: Text(
+            "What's your first name ?",
+            style: customGoogleTextStyle(
+                fontWeight: FontWeight.bold,
+                size: 24,
+                color: AppColor().white.withOpacity(0.7)),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: CustomTextField(
-                hintText: "First Name", controller: _nameController),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: CustomTextField(
+              hintText: "First Name", controller: _nameController),
+        ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: CustomClassicButton(
+            title: "Next",
+            onTap: () => nextPage(_nameController),
           ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: CustomClassicButton(
-              title: "Next",
-              onTap: () => nextPage(_nameController),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -152,7 +145,7 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
         CustomAppbar(
           leading: IconButton(
             onPressed: previousPage,
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
           ),
         ),
         Image(
@@ -190,7 +183,7 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
         CustomAppbar(
           leading: IconButton(
             onPressed: previousPage,
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
           ),
         ),
         Image(
@@ -237,7 +230,7 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
         CustomAppbar(
           leading: IconButton(
             onPressed: previousPage,
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
           ),
         ),
         Image(
@@ -273,19 +266,20 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
   Widget _stepProfileImage(File? image) {
     return Column(
       children: [
-        CustomAppbar(),
+        const CustomAppbar(),
         Stack(
           alignment: Alignment.bottomRight,
           children: [
             CustomAvatar(
               size: 0.275,
               image: image == null
-                  ? Image(image: AssetImage("assets/Profile.jpg"), width: 0.275)
+                  ? const Image(
+                      image: AssetImage("assets/Profile.jpg"), width: 0.275)
                   : Image.file(image, width: displayWidth(context) * 0.25),
               func: getImage,
             ),
             Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               width: displayWidth(context) * 0.1,
               height: displayHeight(context) * 0.03,
               decoration: BoxDecoration(

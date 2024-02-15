@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, depend_on_referenced_packages, avoid_print, use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -62,7 +64,7 @@ class UserDataStorage {
       print('Failed to add user: $error');
       // Hata durumunda kullanıcıya bilgi ver
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Failed to add user. Please try again.'),
         ),
       );

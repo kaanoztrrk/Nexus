@@ -1,7 +1,11 @@
+// ignore_for_file: file_names, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import '../../Controller/AddTermState.dart';
 
 class AddTermPage extends StatefulWidget {
+  const AddTermPage({super.key});
+
   @override
   _AddTermPageState createState() => _AddTermPageState();
 }
@@ -16,7 +20,7 @@ class _AddTermPageState extends State<AddTermPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Term Page'),
+        title: const Text('Add Term Page'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -25,19 +29,19 @@ class _AddTermPageState extends State<AddTermPage> {
           children: [
             TextField(
               controller: termController,
-              decoration: InputDecoration(labelText: 'Enter Term'),
+              decoration: const InputDecoration(labelText: 'Enter Term'),
             ),
             TextField(
               controller: informationController,
-              decoration: InputDecoration(labelText: 'Enter Information'),
+              decoration: const InputDecoration(labelText: 'Enter Information'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Assistant_Term_Data sınıfını kullanarak terimi Firestore'a ekleyin
                 _addTermToFirestore();
               },
-              child: Text('Add Term'),
+              child: const Text('Add Term'),
             ),
           ],
         ),

@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, file_names
+
 import 'package:flutter/material.dart';
 
 import '../../Util/Colors.dart';
@@ -20,7 +22,7 @@ class CustomTextField_Edit extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 10,
       ),
       child: TextField(
@@ -28,7 +30,7 @@ class CustomTextField_Edit extends StatelessWidget {
           onTap: onTap,
           obscureText: obscureText ?? false,
           decoration: InputDecoration(
-              contentPadding: EdgeInsets.all(20),
+              contentPadding: const EdgeInsets.all(20),
               focusColor: AppColor().blue,
               hintText: hintText,
               filled: true,

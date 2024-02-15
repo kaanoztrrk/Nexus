@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ import '../../Util/Colors.dart';
 import '../../Widget/TextField/CustomTextField_Edit.dart';
 
 class ProfileEditPage extends StatefulWidget {
-  ProfileEditPage({super.key});
+  const ProfileEditPage({super.key});
 
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -45,43 +47,41 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               )),
           Expanded(
             flex: 75,
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CustomTextField_Edit(
-                    controller: fullNameController,
-                    hintText: "Full Name",
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                CustomTextField_Edit(
+                  controller: fullNameController,
+                  hintText: "Full Name",
+                ),
+                CustomTextField_Edit(
+                  controller: appealController,
+                  hintText: "Assistant Appeal",
+                ),
+                CustomTextField_Edit(
+                  controller: emailController,
+                  hintText: "Email",
+                ),
+                CustomTextField_Edit(
+                  controller: passwordController,
+                  hintText: "Password",
+                ),
+                const GenderSelector(),
+                BirthdaySelector(
+                  onDateSelected: (date) {
+                    selectedBirthDay = date.toString();
+                  },
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: CustomClassicButton(
+                    title: "Save",
+                    bgColor: AppColor().white,
+                    color: AppColor().bgColor,
+                    onTap: () => _saveProfileInfo(),
                   ),
-                  CustomTextField_Edit(
-                    controller: appealController,
-                    hintText: "Assistant Appeal",
-                  ),
-                  CustomTextField_Edit(
-                    controller: emailController,
-                    hintText: "Email",
-                  ),
-                  CustomTextField_Edit(
-                    controller: passwordController,
-                    hintText: "Password",
-                  ),
-                  GenderSelector(),
-                  BirthdaySelector(
-                    onDateSelected: (date) {
-                      selectedBirthDay = date.toString();
-                    },
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: CustomClassicButton(
-                      title: "Save",
-                      bgColor: AppColor().white,
-                      color: AppColor().bgColor,
-                      onTap: () => _saveProfileInfo(),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -106,7 +106,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Profile information saved successfully!"),
           ),
         );
