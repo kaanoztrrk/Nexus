@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nexus/Controller/AppsListController.dart';
+import 'package:nexus/Models/Users.dart';
 import 'package:nexus/Pages/Auth/AuthPage.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/ImageExtension.dart';
@@ -12,10 +13,12 @@ import 'package:nexus/Widget/Components/Avatar.dart';
 import 'package:nexus/Widget/Components/CustomAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'ProfileEdit.dart';
+import 'Settings/ProfileEdit.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({super.key, required this.user, this.userID});
+  final UserProfile? user;
+  final String? userID;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +27,19 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const CustomAppbar(title: "Setting")),
+          title: CustomAppbar(
+            title: "Setting",
+            leading: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.arrow_back)),
+          )),
       body: Padding(
         padding: EdgeInsets.all(displayWidth(context) * 0.05),
         child: Column(
           children: [
             _profile(context),
             _general(context, appsListController),
-            _preferences(context, appsListController)
+            _preferences(context, appsListController),
           ],
         ),
       ),
@@ -40,7 +48,8 @@ class SettingsPage extends StatelessWidget {
 
   Widget _profile(BuildContext context) {
     return InkWell(
-      onTap: () => pageNavigator(context, const ProfileEditPage()),
+      onTap: () =>
+          pageNavigator(context, ProfileEditPage(user: user, userID: userID)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: displayWidth(context),
@@ -57,11 +66,11 @@ class SettingsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Kaan Öztürk",
+                  Text("${user?.firstName} ${user?.lastName}",
                       style: customGoogleTextStyle()
                           .copyWith(fontWeight: FontWeight.w500, fontSize: 16)),
                   Text(
-                    "kaanoztrrk411@gmail.com",
+                    user?.email ?? "",
                     style: customGoogleTextStyle().copyWith(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,

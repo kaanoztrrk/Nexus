@@ -1,8 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:nexus/Pages/Apps/Apps.dart';
-import 'package:nexus/Pages/Settings/Settings.dart';
+import 'package:nexus/Models/Users.dart';
+import 'package:nexus/Pages/Apps.dart';
+import 'package:nexus/Pages/Settings.dart';
 import 'package:nexus/Util/Extension/ImageExtension.dart';
 import 'package:nexus/Util/Extension/PageNavigator.dart';
 import 'package:nexus/Widget/Button/OutlineBorderButton.dart';
@@ -14,9 +15,13 @@ class VoiceButton extends StatelessWidget {
   const VoiceButton({
     super.key,
     this.onTap,
+    this.user,
+    this.userID,
   });
 
   final Function()? onTap;
+  final UserProfile? user;
+  final String? userID;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +44,8 @@ class VoiceButton extends StatelessWidget {
           menusIconButtonWidget(
               context,
               IconImageEnum.settings.toPath,
-              () => pageNavigator(context, const SettingsPage()),
+              () => pageNavigator(
+                  context, SettingsPage(user: user, userID: userID)),
               0.5,
               0.175,
               0.075),

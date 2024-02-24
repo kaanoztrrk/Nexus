@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison, avoid_print, file_names
-
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../Service/AssistantService/DataResponse.dart';
 
 class VoiceDialog {
   final FlutterTts flutterTts = FlutterTts();
@@ -37,7 +37,7 @@ class VoiceDialog {
           await speak(response!);
         } else {
           // Hafızada da yoksa, genel bir mesaj ver
-          await speak(getGeneralResponse(cleanCommand));
+          await speak(getGeneralResponse(cleanCommand) ?? "");
         }
       }
     } catch (e) {
@@ -53,19 +53,34 @@ class VoiceDialog {
     }
   }
 
-  String getGeneralResponse(String command) {
+  String? getGeneralResponse(String command) {
     // Genel bir cevap seçmek için
     switch (command) {
       case 'hello':
-        return "Hello! How can I help you?";
+      case 'hey':
+      case 'howdy':
+      case 'greetings':
+      case 'good morning':
+      case 'good afternoon':
+      case 'good evening':
+      case 'hi there':
+      case 'hiya':
+      case 'sup':
+        return DataResponseService.responseReturn("greeting");
       case 'time':
-        return "The current time is ${DateTime.now().toString()}";
-      case 'open calendar':
-        return "Opening the calendar.";
-      case 'play music':
-        return "Playing your favorite music.";
+      case 'what time ':
+      case 'what time is it':
+      case "do you know what time it is":
+      case "what is the current time":
+        return DataResponseService.responseReturn("time");
+      case 'what is the date today':
+      case 'what day is it today':
+      case 'could you tell me the date, please':
+      case "do you know what todays date is":
+      case 'could you inform me of the date':
+        return DataResponseService.responseReturn("dataTime");
       default:
-        return "I'm not sure how to respond to that command.";
+        return DataResponseService.defaultResponse();
     }
   }
 }

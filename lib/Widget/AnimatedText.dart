@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexus/Util/Extension/TextUtility.dart';
 
-import '../../Util/Colors.dart';
+import '../Util/Colors.dart';
 
 class AnimatedText extends StatefulWidget {
   final String text;

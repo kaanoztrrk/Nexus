@@ -1,27 +1,26 @@
-// ignore_for_file: file_names
-
 class UserProfile {
+  final String email;
   final String firstName;
   final String lastName;
-  final int age;
+  final String age;
   final String gender;
-  late final String profileImage;
 
   UserProfile({
+    required this.email,
     required this.firstName,
     required this.lastName,
     required this.age,
     required this.gender,
-    required this.profileImage,
   });
 
+  // fromMap fonksiyonu ile Firestore'dan gelen verileri UserProfile nesnesine dönüştürür
   factory UserProfile.fromMap(Map<String, dynamic> map) {
     return UserProfile(
+      email: map['email'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
-      age: map['age'] ?? 0,
+      age: map['age'] ?? "", // Firestore'dan gelen yaş verisi integer olmalı
       gender: map['gender'] ?? '',
-      profileImage: '',
     );
   }
 }

@@ -13,6 +13,7 @@ import '../Home.dart';
 class UserDataStorage {
   static Future<void> saveUserData({
     required String email,
+    required String password,
     required String firstName,
     required String lastName,
     required String age,
@@ -25,6 +26,7 @@ class UserDataStorage {
       DocumentReference userRef =
           await FirebaseFirestore.instance.collection('users').add({
         'email': email,
+        'password': password,
         'firstName': firstName,
         'lastName': lastName,
         'age': age,
@@ -32,27 +34,10 @@ class UserDataStorage {
       });
       print('User added with ID: ${userRef.id}');
 
-      // Eğer kullanıcı bir resim seçmişse, Firebase Storage'a yükle
-      if (image != null) {
-        // Resmi Firebase Storage'a yükle
-        String fileName = path.basename(image.path);
-        Reference storageRef = FirebaseStorage.instance
-            .ref()
-            .child('user_images/${userRef.id}/$fileName');
-        await storageRef.putFile(image);
-
-        // Resmin URL'sini Firestore belgesine ekle
-        String imageUrl = await storageRef.getDownloadURL();
-        await userRef.update({'imageUrl': imageUrl});
-
-        // Resmin URL'sini yerel depoya kaydetme (isteğe bağlı)
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('profileImage', imageUrl);
-      }
-
       // Kullanıcının kimliğini yerel depoya kaydet
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('userId', userRef.id);
+
+      SharedPreferences.getInstance()
+          .then((value) => value.setString("userId", userRef.id));
 
       // Anasayfaya yönlendir
       Navigator.of(context).pushReplacement(

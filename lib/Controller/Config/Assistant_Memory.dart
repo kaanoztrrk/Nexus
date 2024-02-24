@@ -1,57 +1,44 @@
-// ignore_for_file: file_names
+import 'dart:collection';
 
-class Memory {
-  UserMemory userMemory;
-  ConversationMemory conversationMemory;
+class ShortTermMemoryService {
+  List<String> _lists = [];
+  Map<String, String> _dictionary = {};
+  Queue<String> _queue = Queue();
 
-  Memory({required String userName, Map<String, dynamic>? userData})
-      : userMemory = UserMemory(userName: userName, initialData: userData),
-        conversationMemory = ConversationMemory();
-
-  void setUserMemoryData(String key, dynamic value) {
-    userMemory.setUserData(key, value);
+  // Yeni bir liste oluştur
+  void createList(String listName) {
+    _lists.add(listName);
   }
 
-  dynamic getUserMemoryData(String key) {
-    return userMemory.getUserData(key);
+  // Yeni bir sözlük oluştur
+  void createDictionary(String key, String value) {
+    _dictionary[key] = value;
   }
 
-  void setConversationMemoryData(String key, dynamic value) {
-    conversationMemory.setData(key, value);
+  // Yeni bir kuyruk oluştur
+  void enqueue(String item) {
+    _queue.add(item);
   }
 
-  dynamic getConversationMemoryData(String key) {
-    return conversationMemory.getData(key);
-  }
-}
-
-class UserMemory {
-  String userName;
-  Map<String, dynamic> data;
-
-  UserMemory({required this.userName, Map<String, dynamic>? initialData})
-      : data = initialData ?? {};
-
-  void setUserData(String key, dynamic value) {
-    data[key] = value;
+  // Listeleri getir
+  List<String> getLists() {
+    return _lists;
   }
 
-  dynamic getUserData(String key) {
-    return data[key];
-  }
-}
-
-class ConversationMemory {
-  Map<String, dynamic> data;
-
-  ConversationMemory({Map<String, dynamic>? initialData})
-      : data = initialData ?? {};
-
-  void setData(String key, dynamic value) {
-    data[key] = value;
+  // Sözlüğü getir
+  Map<String, String> getDictionary() {
+    return _dictionary;
   }
 
-  dynamic getData(String key) {
-    return data[key];
+  // Kuyruğu getir
+  List<String> getQueue() {
+    return _queue.toList();
+  }
+
+  void printLists() {
+    print("Mevcut Listeler:");
+    _lists.forEach((list) {
+      print("- $list");
+    });
   }
 }

@@ -1,10 +1,9 @@
-// ignore_for_file: file_names
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:nexus/Util/Colors.dart';
 
+import '../../Service/ConnectivityService.dart';
 import '../../Util/Extension/PageNavigator.dart';
 import '../../Widget/Components/NexusShower.dart';
 import 'AuthPage.dart';
@@ -21,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3),
-        () => pageNavigator(context, const AuthPage()));
+        () => pageNavigator(context, const EnternetCheckPage()));
   }
 
   @override

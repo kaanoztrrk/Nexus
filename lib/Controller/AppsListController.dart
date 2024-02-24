@@ -1,8 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:nexus/Pages/Apps/Apps.dart';
+import 'package:nexus/Pages/Apps.dart';
 import 'package:nexus/Pages/Settings/Help&SupportPage.dart';
+import 'package:nexus/Pages/Settings/LanguagePage.dart';
 import 'package:nexus/Pages/Settings/LegalandPolicies.dart';
 import 'package:nexus/Pages/Settings/SoundsandTonePage.dart';
 import 'package:nexus/Pages/Settings/ThemePage.dart';
@@ -12,43 +13,16 @@ import '../Util/Extension/PageNavigator.dart';
 class AppsListController {
   List appsList = [];
   List settingsGeneralList = [
-    [
-      IconImageEnum.voice.toPath,
-      "Sound and Tone",
-      const SoundandTonePage(),
-    ],
-    [
-      IconImageEnum.theme.toPath,
-      "Theme",
-      const ThemesPage(),
-    ],
-    [
-      IconImageEnum.skills.toPath,
-      "Skills",
-      const AppsPage(),
-    ],
-    [
-      IconImageEnum.speechReturn.toPath,
-      "Speech Return",
-      const AppsPage(),
-    ],
-    [
-      IconImageEnum.language.toPath,
-      "Language",
-      const AppsPage(),
-    ],
+    [IconImageEnum.voice.toPath, "Sound and Tone", const SoundandTonePage()],
+    [IconImageEnum.theme.toPath, "Theme", const ThemesPage()],
+    [IconImageEnum.skills.toPath, "Skills", const AppsPage()],
+    [IconImageEnum.speechReturn.toPath, "Speech Return", const AppsPage()],
+    [IconImageEnum.language.toPath, "Language", LanguageSelectionPage()],
   ];
+
   List settingsPreferencesList = [
-    [
-      IconImageEnum.shield.toPath,
-      "Legal and Policies",
-      const LegalandPolicies()
-    ],
-    [
-      IconImageEnum.help.toPath,
-      "Help & Support",
-      const HelpSupportPage(),
-    ],
+    [IconImageEnum.shield.toPath, "Legal and Policies", const Policies()],
+    [IconImageEnum.help.toPath, "Help & Support", const HelpSupportPage()],
   ];
 
   List bgList = [

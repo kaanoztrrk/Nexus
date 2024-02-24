@@ -1,34 +1,49 @@
 // ignore_for_file: file_names, use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nexus/Models/Users.dart';
+import 'package:nexus/Service/ScaffoldMessage.dart';
+import 'package:nexus/Util/Extension/Size.dart';
 import 'package:nexus/Widget/Button/ClassicButton.dart';
 import 'package:nexus/Widget/Components/Avatar.dart';
-import 'package:nexus/Widget/Components/BirthDaySelecter.dart';
 import 'package:nexus/Widget/Components/CustomAppBar.dart';
-import 'package:nexus/Widget/Components/GenderSelecter.dart';
+import 'package:nexus/Widget/CustomTextField.dart';
+import 'package:restart_app/restart_app.dart';
 import '../../Util/Colors.dart';
-import '../../Widget/TextField/CustomTextField_Edit.dart';
 
 class ProfileEditPage extends StatefulWidget {
-  const ProfileEditPage({super.key});
+  const ProfileEditPage({super.key, this.user, this.userID});
+
+  final UserProfile? user;
+  final String? userID;
 
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
 }
 
 class _ProfileEditPageState extends State<ProfileEditPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String selectedGender = '';
   int currentIndex = 0;
   String selectedBirthDay = "";
 
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController appealController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Controller'ları başlatma işlemi initState içinde yapılıyor
+    // Ve widget özelliğinden erişim sağlanıyor
+    firstNameController.text = widget.user?.firstName ?? '';
+    lastNameController.text = widget.user?.lastName ?? '';
+    emailController.text = widget.user?.email ?? '';
+    ageController.text = widget.user?.age ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,87 +51,110 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const CustomAppbar(title: "Profile Edit"),
+        title: CustomAppbar(
+          title: "Profile Edit",
+          leading: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(Icons.arrow_back)),
+        ),
       ),
       body: Column(
         children: [
-          const Expanded(
-              flex: 25,
-              child: Center(
-                child: CustomAvatar(size: 0.25),
-              )),
+          Padding(
+            padding: EdgeInsets.all(displayWidth(context) * 0.1),
+            child: CustomAvatar(size: 0.25),
+          ),
           Expanded(
-            flex: 75,
+              child: Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CustomTextField_Edit(
-                  controller: fullNameController,
-                  hintText: "Full Name",
+                _textField(
+                  hintText: widget.user?.firstName,
+                  controller: firstNameController,
                 ),
-                CustomTextField_Edit(
-                  controller: appealController,
-                  hintText: "Assistant Appeal",
+                _textField(
+                  hintText: widget.user?.lastName,
+                  controller: lastNameController,
                 ),
-                CustomTextField_Edit(
+                _textField(
+                  hintText: widget.user?.email,
                   controller: emailController,
-                  hintText: "Email",
                 ),
-                CustomTextField_Edit(
-                  controller: passwordController,
-                  hintText: "Password",
-                ),
-                const GenderSelector(),
-                BirthdaySelector(
-                  onDateSelected: (date) {
-                    selectedBirthDay = date.toString();
-                  },
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: CustomClassicButton(
-                    title: "Save",
-                    bgColor: AppColor().white,
-                    color: AppColor().bgColor,
-                    onTap: () => _saveProfileInfo(),
-                  ),
+                _textField(
+                  hintText: widget.user?.age,
+                  controller: ageController,
                 ),
               ],
             ),
-          ),
+          )),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: CustomClassicButton(
+              title: "Save",
+              onTap: () => updateUserData(
+                  context: context,
+                  userID: widget.userID,
+                  firstName: firstNameController.text,
+                  lastName: lastNameController.text,
+                  email: emailController.text,
+                  age: ageController.text),
+            ),
+          )
         ],
       ),
     );
   }
 
-  Future<void> _saveProfileInfo() async {
+  Future<void> updateUserData({
+    String? userID,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? age,
+    required BuildContext context,
+  }) async {
     try {
-      User? user = _auth.currentUser;
-      if (user != null) {
-        await user.updateDisplayName(fullNameController.text);
-        await user.updateEmail(emailController.text);
+      // Kullanıcının verilerini güncelle Firestore'da
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userID)
+          .get();
 
-        // Kullanıcı bilgilerini Firestore'da users koleksiyonuna ekleyin
-        await _firestore.collection('users').doc(user.uid).set({
-          'full_name': fullNameController.text,
-          'assistant_appeal': appealController.text,
-          'email': emailController.text,
-          'gender': selectedGender,
-          'birthday': selectedBirthDay, // Buraya seçilen tarih gelecek
-        });
+      Map<String, dynamic> updatedData = {
+        if (firstName != null) 'firstName': firstName,
+        if (lastName != null) 'lastName': lastName,
+        if (email != null) 'email': email,
+        if (age != null) 'age': age,
+      };
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Profile information saved successfully!"),
-          ),
-        );
+      // Mevcut kullanıcı verilerini güncelle
+      if (userSnapshot.exists) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userID)
+            .update(updatedData);
+      } else {
+        // Kullanıcı bulunamadı
+        print('User not found.');
+        SnackBarService.showSnackBar(context, "User not found.");
+        return;
       }
+
+      SnackBarService.showSnackBar(context, "Your Profile has been Updated.");
+      Restart.restartApp(webOrigin: "_");
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Error: $error"),
-        ),
-      );
+      print('Error updating user data: $error');
+      SnackBarService.showSnackBar(
+          context, "An error occurred while updating your profile");
     }
+  }
+
+  Widget _textField({String? hintText, TextEditingController? controller}) {
+    return CustomTextField(
+      color: AppColor().white.withOpacity(0.7),
+      controller: controller,
+      hintText: hintText,
+    );
   }
 }

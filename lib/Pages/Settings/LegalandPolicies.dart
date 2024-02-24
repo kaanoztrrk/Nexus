@@ -6,8 +6,8 @@ import 'package:nexus/Util/Extension/Size.dart';
 import 'package:nexus/Util/Extension/TextUtility.dart';
 import 'package:nexus/Widget/Components/CustomAppBar.dart';
 
-class LegalandPolicies extends StatelessWidget {
-  const LegalandPolicies({super.key});
+class Policies extends StatelessWidget {
+  const Policies({super.key});
 
   @override
   Widget build(BuildContext context) {

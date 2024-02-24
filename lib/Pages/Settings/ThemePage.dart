@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nexus/Controller/AppsListController.dart';
+import 'package:nexus/Service/PreferencesService.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Util/Colors.dart';
@@ -29,8 +30,8 @@ class _ThemesPageState extends State<ThemesPage> {
   }
 
   Future<void> savePreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('selectedImageIndex', selectedImageIndex);
+    SharedPreferencesService.getInstance().then(
+        (value) => value.setIntValue("selectedImageIndex", selectedImageIndex));
   }
 
   void _restartApp() {

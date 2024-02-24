@@ -7,7 +7,7 @@ import 'package:nexus/Pages/Auth/AuthPages/OTPEmail.dart';
 import 'package:nexus/Service/ScaffoldMessage.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/PageNavigator.dart';
-import 'package:nexus/Widget/TextField/CustomTextField.dart';
+import 'package:nexus/Widget/CustomTextField.dart';
 import 'package:email_otp/email_otp.dart';
 
 import '../../../Util/Extension/Size.dart';

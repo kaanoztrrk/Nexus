@@ -15,7 +15,7 @@ import '../../../Util/Extension/ImageExtension.dart';
 import '../../../Util/Extension/Size.dart';
 import '../../../Util/Extension/TextUtility.dart';
 import '../../../Widget/Button/ClassicButton.dart';
-import '../../../Widget/TextField/CustomTextField.dart';
+import '../../../Widget/CustomTextField.dart';
 
 class UserStartProfilePage extends StatefulWidget {
   const UserStartProfilePage(
@@ -30,7 +30,7 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
   final PageController _pageController = PageController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _birthDayController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
 
   void nextPage(TextEditingController controller) {
@@ -65,14 +65,16 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
 
   void _saveUserData(BuildContext context) async {
     String email = widget.email;
+    String password = widget.password;
     String firstName = _nameController.text;
     String lastName = _lastNameController.text;
-    String age = _ageController.text;
+    String age = _birthDayController.text;
     String gender = _genderController.text;
 
     // Kullanıcı verilerini kaydet
     await UserDataStorage.saveUserData(
       email: email,
+      password: password,
       firstName: firstName,
       lastName: lastName,
       age: age,
@@ -94,7 +96,7 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
           children: [
             _stepFirstname(),
             _stepLastName(),
-            _stepAge(),
+            _stepBirtDay(),
             _stepGender(),
             _stepProfileImage(image),
           ],
@@ -177,7 +179,7 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
     );
   }
 
-  Widget _stepAge() {
+  Widget _stepBirtDay() {
     return Column(
       children: [
         CustomAppbar(
@@ -193,23 +195,19 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: Text(
-            "How old are you ?",
+            "When were you born ?",
             style: customGoogleTextStyle(
                 fontWeight: FontWeight.bold,
                 size: 24,
                 color: AppColor().white.withOpacity(0.7)),
           ),
         ),
+        // birth day picker
         Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: CustomTextField(
-            keyboardType: TextInputType.datetime,
-            hintText: "Age",
-            controller: _ageController,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(2)
-            ],
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: BirthdayPicker(
+            controller: _birthDayController,
+            initialDate: DateTime.now(),
           ),
         ),
         const Spacer(),
@@ -217,7 +215,7 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: CustomClassicButton(
             title: "Next",
-            onTap: () => nextPage(_ageController),
+            onTap: () => nextPage(_birthDayController),
           ),
         ),
       ],
@@ -316,4 +314,57 @@ class _UserStartProfilePageState extends State<UserStartProfilePage> {
       ],
     );
   }
+}
+
+class BirthdayPicker extends StatelessWidget {
+  final TextEditingController controller;
+  final DateTime initialDate;
+
+  const BirthdayPicker({
+    Key? key,
+    required this.controller,
+    required this.initialDate,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _selectDate(context),
+      child: AbsorbPointer(
+        child: CustomTextField(
+          hintText: "BirthDay",
+          controller: controller,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != initialDate) {
+      controller.text = '${picked.year}-${picked.month}-${picked.day}';
+    }
+  }
+}
+
+void main() {
+  TextEditingController birthdayController = TextEditingController();
+  DateTime initialDate = DateTime.now();
+
+  runApp(MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(title: Text('Birthday Picker')),
+      body: Center(
+        child: BirthdayPicker(
+          controller: birthdayController,
+          initialDate: initialDate,
+        ),
+      ),
+    ),
+  ));
 }

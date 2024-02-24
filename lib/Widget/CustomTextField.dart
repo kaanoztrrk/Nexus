@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../Util/Colors.dart';
+import '../Util/Colors.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -19,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     this.inputFormatters,
     this.maxlength,
     this.textAlign,
+    this.color,
   });
 
   final bool? visible;
@@ -31,6 +32,7 @@ class CustomTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int? maxlength;
   final TextAlign? textAlign;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class CustomTextField extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 10),
         width: double.infinity,
         decoration: BoxDecoration(
-            border: Border.all(width: 2, color: AppColor().white),
+            border: Border.all(width: 2, color: color ?? AppColor().white),
             borderRadius: BorderRadius.circular(20)),
         child: TextField(
           textAlign: textAlign ?? TextAlign.start,

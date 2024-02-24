@@ -34,6 +34,8 @@ class AuthPage extends StatelessWidget {
 
   Future<String?> _getUserIdFromSharedPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('userId');
+    String? userId = prefs.getString('userId');
+    print('User ID: $userId'); // UserID'yi print et
+    return userId;
   }
 }
