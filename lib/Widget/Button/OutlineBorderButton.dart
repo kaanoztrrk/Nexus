@@ -1,4 +1,3 @@
-// ignore_for_file: file_names, unused_element
 import 'package:flutter/material.dart';
 
 class OutlineButton extends StatelessWidget {
@@ -6,21 +5,26 @@ class OutlineButton extends StatelessWidget {
   final Widget _child;
   final Function()? _callback;
   final double _radius;
-  final double _size;
+  final double _width;
+  final double _height;
+
   OutlineButton({
-    super.key,
+    Key? key,
     required double strokeWidth,
     required double radius,
     required Gradient gradient,
     required Widget child,
     required Function()? onPressed,
-    required double size,
+    double? width, // Optional width parameter
+    double? height, // Optional height parameter
+    double size = 48.0, // Default size if width and height are not provided
   })  : _painter = _GradientPainter(
             strokeWidth: strokeWidth, radius: radius, gradient: gradient),
         _child = child,
         _callback = onPressed,
         _radius = radius,
-        _size = size;
+        _width = width ?? size, // Use size if width is not provided
+        _height = height ?? size; // Use size if height is not provided
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +37,9 @@ class OutlineButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(_radius),
           onTap: _callback,
           child: Container(
-            constraints: BoxConstraints(minWidth: _size, minHeight: _size),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _child,
-              ],
-            ),
+            width: _width,
+            height: _height,
+            child: Center(child: _child),
           ),
         ),
       ),
@@ -54,10 +53,11 @@ class _GradientPainter extends CustomPainter {
   final double strokeWidth;
   final Gradient gradient;
 
-  _GradientPainter(
-      {required this.strokeWidth,
-      required this.radius,
-      required this.gradient});
+  _GradientPainter({
+    required this.strokeWidth,
+    required this.radius,
+    required this.gradient,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -87,28 +87,29 @@ class _GradientPainter extends CustomPainter {
 }
 
 class OutlineReSizeButton extends StatelessWidget {
-  final _GradientPainter _painter;
+  final _OutlineReSizeButton _painter;
   final Widget _child;
   final Function()? _callback;
   final double _radius;
   final double _width;
-  final double _heigth;
+  final double _height;
+
   OutlineReSizeButton({
-    super.key,
+    Key? key,
     required double strokeWidth,
     required double radius,
     required Gradient gradient,
     required Widget child,
     required Function()? onPressed,
-    required double width,
-    required double heigth,
-  })  : _painter = _GradientPainter(
+    double? width, // Optional width parameter
+    double? height, // Optional height parameter
+  })  : _painter = _OutlineReSizeButton(
             strokeWidth: strokeWidth, radius: radius, gradient: gradient),
         _child = child,
         _callback = onPressed,
         _radius = radius,
-        _width = width,
-        _heigth = heigth;
+        _width = width ?? 100.0, // Default width if not provided
+        _height = height ?? 48.0; // Default height if not provided
 
   @override
   Widget build(BuildContext context) {
@@ -121,14 +122,9 @@ class OutlineReSizeButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(_radius),
           onTap: _callback,
           child: Container(
-            constraints: BoxConstraints(minWidth: _width, minHeight: _heigth),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _child,
-              ],
-            ),
+            width: _width,
+            height: _height,
+            child: Center(child: _child),
           ),
         ),
       ),
@@ -142,10 +138,11 @@ class _OutlineReSizeButton extends CustomPainter {
   final double strokeWidth;
   final Gradient gradient;
 
-  _OutlineReSizeButton(
-      {required this.strokeWidth,
-      required this.radius,
-      required this.gradient});
+  _OutlineReSizeButton({
+    required this.strokeWidth,
+    required this.radius,
+    required this.gradient,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {

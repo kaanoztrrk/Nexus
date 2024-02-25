@@ -40,6 +40,8 @@ enum IconImageEnum {
   social_google,
   user,
   edit,
+  search,
+  dictionary,
 }
 
 extension IconEnum on IconImageEnum {

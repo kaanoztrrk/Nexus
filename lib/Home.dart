@@ -1,20 +1,18 @@
+// ignore_for_file: unused_field
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
-
-import 'Controller/AppsController.dart';
 import 'Controller/AppsListController.dart';
 import 'Controller/Config/Asisstant_Dialog.dart';
 import 'Controller/Config/Assistant_Config.dart';
-import 'Controller/Config/Assistant_Memory.dart';
 import 'Models/Users.dart';
 import 'Service/AssistantService/SpeechService.dart';
 import 'Util/Colors.dart';
 import 'Util/Extension/Size.dart';
 import 'Util/Extension/TextUtility.dart';
 import 'Widget/Button/VoiceButton.dart';
-import 'Widget/Components/Avatar.dart';
 import 'Widget/AnimatedText.dart';
 
 class Home extends StatefulWidget {

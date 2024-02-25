@@ -35,7 +35,7 @@ class VoiceButton extends StatelessWidget {
           menusIconButtonWidget(
               context,
               IconImageEnum.home.toPath,
-              () => pageNavigator(context, const AppsPage()),
+              () => pageNavigator(context, AppsPage(userID: userID.toString())),
               0.5,
               0.175,
               0.075),
