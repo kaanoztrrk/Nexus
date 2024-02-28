@@ -60,10 +60,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(displayWidth(context) * 0.1),
-            child: CustomAvatar(size: 0.25),
-          ),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.all(10.0),

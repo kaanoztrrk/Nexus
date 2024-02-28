@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/PageNavigator.dart';
 import 'package:nexus/Util/Extension/Size.dart';
@@ -40,14 +39,21 @@ class _TodoPageState extends State<TodoPage> {
                   child: ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      String title = snapshot.data?[index]['title'];
+                      String title = snapshot.data?[index]['title'] ?? '';
                       String creationDate =
-                          snapshot.data?[index]['creationDate'];
-                      int id = snapshot.data?[index]['id'];
+                          snapshot.data?[index]['creation_date'] ?? '';
+                      int id = snapshot.data?[index]['id'] ?? 0;
 
                       return Card(
                         child: ListTile(
                           title: Text(title),
+                          trailing: IconButton(
+                            onPressed: () {
+                              TodoDatabaseProvider.db.deleteTodo(id);
+                              setState(() {}); // State'i yenile
+                            },
+                            icon: Icon(Icons.delete),
+                          ),
                         ),
                       );
                     },
@@ -63,10 +69,12 @@ class _TodoPageState extends State<TodoPage> {
         size: displayWidth(context) * 0.2,
         strokeWidth: 2.5,
         radius: 100,
-        gradient: LinearGradient(colors: <Color>[
-          AppColor().pink.withOpacity(0.5),
-          AppColor().blue.withOpacity(0.5),
-        ]),
+        gradient: LinearGradient(
+          colors: <Color>[
+            AppColor().pink.withOpacity(0.5),
+            AppColor().blue.withOpacity(0.5),
+          ],
+        ),
         onPressed: () => pageNavigator(context, AddTodoPage()),
         child: Icon(Icons.add),
       ),
