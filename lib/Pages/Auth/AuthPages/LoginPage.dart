@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nexus/Home.dart';
+import 'package:nexus/Pages/Home.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Widget/Button/ClassicButton.dart';
 import 'package:nexus/Widget/CustomTextField.dart';

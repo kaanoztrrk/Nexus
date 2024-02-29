@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Home.dart';
+import '../Home.dart';
 import 'AuthPages/LoginPage.dart';
 
 class AuthPage extends StatelessWidget {

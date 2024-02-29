@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nexus/Pages/Apps.dart';
 import 'package:nexus/Pages/Apps/NewTermsPage.dart';
+import 'package:nexus/Pages/Apps/SearchPage/SearchPage.dart';
 import 'package:nexus/Pages/Settings/Help&SupportPage.dart';
 import 'package:nexus/Pages/Settings/LanguagePage.dart';
 import 'package:nexus/Pages/Settings/LegalandPolicies.dart';
@@ -15,7 +16,7 @@ class AppsListController {
   List appsList = [
     [IconImageEnum.language.toPath, "Translate", LanguageSelectionPage()],
     [IconImageEnum.edit.toPath, "Note", NoteTodoPage()],
-    [IconImageEnum.search.toPath, "Search", const LanguageSelectionPage()],
+    [IconImageEnum.search.toPath, "Search", SearchPage()],
     [IconImageEnum.voice.toPath, "New Term", AddTermPage()],
     [IconImageEnum.dictionary.toPath, "Dictionary", AddTermPage()],
   ];

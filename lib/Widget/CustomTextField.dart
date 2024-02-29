@@ -7,20 +7,22 @@ import 'package:flutter/services.dart';
 import '../Util/Colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    super.key,
-    this.visible,
-    this.onTap,
-    this.hintText,
-    this.icon,
-    this.controller,
-    this.obscureText,
-    this.keyboardType,
-    this.inputFormatters,
-    this.maxlength,
-    this.textAlign,
-    this.color,
-  });
+  const CustomTextField(
+      {super.key,
+      this.visible,
+      this.onTap,
+      this.hintText,
+      this.icon,
+      this.controller,
+      this.obscureText,
+      this.keyboardType,
+      this.inputFormatters,
+      this.maxlength,
+      this.textAlign,
+      this.color,
+      this.onChanged,
+      this.prefixIcon,
+      this.suffixIcon});
 
   final bool? visible;
   final Function()? onTap;
@@ -33,6 +35,9 @@ class CustomTextField extends StatelessWidget {
   final int? maxlength;
   final TextAlign? textAlign;
   final Color? color;
+  final Function(String)? onChanged;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +50,8 @@ class CustomTextField extends StatelessWidget {
             border: Border.all(width: 2, color: color ?? AppColor().white),
             borderRadius: BorderRadius.circular(20)),
         child: TextField(
+          onTap: onTap,
+          onChanged: onChanged,
           textAlign: textAlign ?? TextAlign.start,
           maxLength: maxlength,
           keyboardType: keyboardType ?? TextInputType.text,
@@ -54,11 +61,9 @@ class CustomTextField extends StatelessWidget {
           inputFormatters:
               inputFormatters ?? [], // Sadece sayılar ve en fazla 2 karakter
           decoration: InputDecoration(
-              suffixIcon: IconButton(
-                onPressed: onTap,
-                icon: Icon(icon),
-                color: AppColor().white.withOpacity(0.7),
-              ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
+              prefixIcon: prefixIcon,
+              suffixIcon: suffixIcon,
               hintText: hintText ?? "",
               border: const OutlineInputBorder(borderSide: BorderSide.none)),
         ),
@@ -66,3 +71,11 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
+/*
+ IconButton(
+                onPressed: onTap,
+                icon: Icon(icon),
+                color: AppColor().white.withOpacity(0.7),
+              ),
+
+ */

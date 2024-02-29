@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:nexus/Home.dart';
+import 'package:nexus/Pages/Home.dart';
 import 'package:nexus/Util/Colors.dart';
 import 'package:nexus/Util/Extension/PageNavigator.dart';
 import 'package:nexus/Util/Extension/Size.dart';
@@ -36,12 +36,12 @@ class AppsPage extends StatelessWidget {
         itemBuilder: (context, index) {
           var item = appsListController.getAppList(context)[index];
           return AppsButton(
+            title: item[1],
+            onTap: item[2],
             child: Image(
               image: item[0],
               color: AppColor().white.withOpacity(0.2),
             ),
-            title: item[1],
-            onTap: item[2],
           );
         },
         separatorBuilder: (context, index) {

@@ -1,4 +1,3 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, constant_identifier_names
 
-const String userName = "Boss";
-const String userName_1 = "Sir";
+const String api_key = "AIzaSyCnZlKsDvdN0LxVwtgfGt38mryTpfybwec";
